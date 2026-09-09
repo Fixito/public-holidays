@@ -9,15 +9,9 @@ import { useHolidays } from './hooks/use-holidays';
 import { API_CONFIG } from './lib/constants';
 
 export default function App() {
-  const [selectedCountry, setSelectedCountry] = useState<string>(
-    API_CONFIG.DEFAULT_COUNTRY,
-  );
+  const [selectedCountry, setSelectedCountry] = useState<string>(API_CONFIG.DEFAULT_COUNTRY);
 
-  const {
-    data: countries,
-    error: countriesError,
-    isPending: countriesPending,
-  } = useCountries();
+  const { data: countries, error: countriesError, isPending: countriesPending } = useCountries();
 
   const { data: holidays, error: holidaysError } = useHolidays(selectedCountry);
 
@@ -25,21 +19,24 @@ export default function App() {
     setSelectedCountry(e.target.value);
   };
 
-  if (countriesPending)
+  if (countriesPending) {
     return (
-      <main className='container'>
+      <main className="container">
         <div>Chargement des pays...</div>
       </main>
     );
-  if (countriesError)
+  }
+
+  if (countriesError) {
     return (
-      <main className='container'>
+      <main className="container">
         <h1>Erreur: {countriesError.message}</h1>
       </main>
     );
+  }
 
   return (
-    <main className='container'>
+    <main className="container">
       <h1>Jours fériés</h1>
 
       <section>

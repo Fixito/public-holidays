@@ -10,11 +10,14 @@ export function useCountries() {
   return useQuery({
     queryKey: ['countries'],
     queryFn: () => holidaysService.getCountries(),
-    select: useCallback((data: Country[]): CountryOption[] =>
-      data.map((country) => ({
-        isoCode: country.isoCode,
-        name: country.name[0]?.text ?? country.isoCode,
-      })), []),
+    select: useCallback(
+      (data: Country[]): CountryOption[] =>
+        data.map((country) => ({
+          isoCode: country.isoCode,
+          name: country.name[0]?.text ?? country.isoCode,
+        })),
+      [],
+    ),
     staleTime: 1000 * 60 * 60 * 24,
   });
 }

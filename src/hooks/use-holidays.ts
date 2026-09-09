@@ -11,12 +11,15 @@ export function useHolidays(countryIsoCode: string) {
     queryKey: ['holidays', countryIsoCode],
     queryFn: () => holidaysService.getHolidays(countryIsoCode),
     enabled: Boolean(countryIsoCode),
-    select: useCallback((data: Holiday[]): HolidayDisplay[] =>
-      data.map(holiday => ({
-        id: holiday.id,
-        name: holiday.name[0]?.text ?? 'Nom indisponible',
-        startDate: holiday.startDate
-      })), []),
+    select: useCallback(
+      (data: Holiday[]): HolidayDisplay[] =>
+        data.map((holiday) => ({
+          id: holiday.id,
+          name: holiday.name[0]?.text ?? 'Nom indisponible',
+          startDate: holiday.startDate,
+        })),
+      [],
+    ),
     staleTime: 1000 * 60 * 60,
   });
 }

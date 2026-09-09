@@ -1,10 +1,8 @@
+import apiClient from './api';
 
 import { API_CONFIG } from '../lib/constants';
 
 import type { Country, Holiday } from '../types/api';
-
-import apiClient from './api';
-
 
 export async function getCountries(): Promise<Country[]> {
   try {

@@ -12,9 +12,10 @@ export default function CountrySelector({
   onCountryChange,
 }: CountrySelectorProps) {
   return (
-    <div className='form-group'>
-      <label htmlFor='country'>Pays :</label>
-      <select id='country' value={selectedCountry} onChange={onCountryChange}>
+    <div className="form-group">
+      <label htmlFor="country">Pays :</label>
+
+      <select id="country" value={selectedCountry} onChange={onCountryChange}>
         {countries?.map((country) => (
           <option key={country.isoCode} value={country.isoCode}>
             {country.name ?? country.isoCode}
