@@ -1,32 +1,29 @@
-import type { HolidayDisplay } from '../types/ui';
+import { useSuspenseQuery } from '@tanstack/react-query';
+
+import { holydaysOptions } from '../queries/holidays.ts';
 
 interface HolidayListProps {
-  error: Error | null;
-  holidays: HolidayDisplay[] | undefined;
+  country: string;
 }
 
-export default function HolidayList({ holidays, error }: HolidayListProps) {
-  if (holidays) {
-    if (holidays.length === 0) {
-      return <div>Aucun jour férié trouvé pour ce pays.</div>;
-    }
+export default function HolidayList({ country }: HolidayListProps) {
+  const { data: holidays } = useSuspenseQuery(holydaysOptions(country));
 
-    return (
-      <ul>
-        {holidays?.map((holiday) => (
-          <li key={holiday.id}>
-            {new Date(holiday.startDate).toLocaleDateString('fr-FR', {
-              month: 'long',
-              day: 'numeric',
-            })}{' '}
-            - {holiday.name ?? 'Nom indisponible'}
-          </li>
-        ))}
-      </ul>
-    );
+  if (holidays.length === 0) {
+    return <div>Aucun jour férié trouvé pour ce pays.</div>;
   }
 
-  if (error) return <div>Erreur: {error.message}</div>;
-
-  return <div>Chargement des jours fériés...</div>;
+  return (
+    <ul>
+      {holidays.map((holiday) => (
+        <li key={holiday.id}>
+          {new Date(holiday.startDate).toLocaleDateString('fr-FR', {
+            month: 'long',
+            day: 'numeric',
+          })}{' '}
+          - {holiday.name}
+        </li>
+      ))}
+    </ul>
+  );
 }
